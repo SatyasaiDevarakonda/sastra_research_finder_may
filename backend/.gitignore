@@ -1,0 +1,10 @@
+# Backend-only ignores. Repo-wide ignores live in the root .gitignore.
+
+# Local env file (commit only .env.example via root .env.example pattern)
+.env
+
+# Local SQLite DB — recreated and seeded on startup.
+data/sastra.db
+
+# User uploads from local testing.
+data/uploads/
