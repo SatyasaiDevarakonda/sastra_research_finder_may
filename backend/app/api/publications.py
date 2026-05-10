@@ -13,7 +13,7 @@ from app.models.schemas import (
 router = APIRouter(prefix="/publications", tags=["Publications"])
 
 
-@router.get("/", response_model=PublicationSearchResult)
+@router.get("", response_model=PublicationSearchResult)
 async def get_publications(
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),

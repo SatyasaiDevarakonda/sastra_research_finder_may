@@ -114,7 +114,7 @@ async def create_theme(request: CreateThemeRequest, db: Session = Depends(get_db
     }
 
 
-@router.get("/")
+@router.get("")
 async def get_themes_legacy(db: Session = Depends(get_db)):
     """Legacy endpoint - returns theme names for backward compatibility."""
     from app.core.config import THEMATIC_AREAS

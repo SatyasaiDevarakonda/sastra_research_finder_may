@@ -13,7 +13,7 @@ from app.models.schemas import (
 router = APIRouter(prefix="/authors", tags=["Authors"])
 
 
-@router.get("/", response_model=List[AuthorSearchResult])
+@router.get("", response_model=List[AuthorSearchResult])
 async def search_authors(
     name: Optional[str] = None,
     author_id: Optional[str] = None,
