@@ -29,14 +29,14 @@ async def get_publications(
     """
     engine = get_search_engine()
     
-    # Get filtered publications
+    # Get filtered publications (no cap — paginate over the full filtered set)
     pubs = engine.get_publications_by_filter(
         year=year,
         school=school,
         doc_type=document_type,
         thematic_area=thematic_area,
         is_international=is_international,
-        limit=1000
+        limit=None
     )
     
     # Apply text search if provided

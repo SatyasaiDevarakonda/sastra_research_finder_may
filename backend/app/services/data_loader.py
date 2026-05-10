@@ -315,8 +315,11 @@ class DataLoader:
                 self.years.append(year)
             if school and school not in self.schools:
                 self.schools.append(school)
-            if doc_type and doc_type not in self.document_types:
-                self.document_types.append(doc_type)
+            # Track the MAPPED doc_type (matches what's stored on pub['document_type']
+            # so the /publications/filters dropdown values match what publications hold).
+            mapped_doc_type = DOCUMENT_TYPES.get(doc_type, doc_type)
+            if mapped_doc_type and mapped_doc_type not in self.document_types:
+                self.document_types.append(mapped_doc_type)
 
             # Update author name mappings
             for name, aid in full_names:
