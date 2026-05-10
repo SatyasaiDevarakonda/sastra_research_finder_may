@@ -25,12 +25,11 @@ class Settings(BaseSettings):
     # Set to e.g. "https://<user>-<space>.hf.space" on HuggingFace Spaces.
     BACKEND_PUBLIC_URL: str = ""
 
-    # CORS Settings — defaults cover local dev. In production, set CORS_ORIGINS
-    # env var to a comma-separated list including your Vercel domain.
-    CORS_ORIGINS: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-    ]
+    # CORS Settings — comma-separated string. In production, set CORS_ORIGINS
+    # env var to include your Vercel domain.
+    # NOTE: stored as `str` (not `List[str]`) because pydantic-settings tries to
+    # JSON-decode List env vars before our validator can split the CSV.
+    CORS_ORIGINS: str = "http://localhost:3000,http://localhost:5173"
     
     # Database Settings (MongoDB)
     MONGODB_URL: str = "mongodb://localhost:27017"
@@ -68,13 +67,10 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    @field_validator("CORS_ORIGINS", mode="before")
-    @classmethod
-    def _parse_cors_origins(cls, value):
-        """Allow CORS_ORIGINS to be set as a comma-separated string in env."""
-        if isinstance(value, str):
-            return [item.strip() for item in value.split(",") if item.strip()]
-        return value
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """Parse CORS_ORIGINS comma-separated string into a list at use site."""
+        return [item.strip() for item in self.CORS_ORIGINS.split(",") if item.strip()]
 
     @field_validator("BACKEND_PUBLIC_URL", mode="before")
     @classmethod
